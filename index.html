@@ -21,26 +21,7 @@ body{
 }
 .screen{width:100%;max-width:min(500px,94vw);text-align:center;}
 
-/* MUSIC PLAYER */
-#musicBtn{
-  position:fixed;
-  bottom:clamp(1rem,3vw,1.5rem);
-  right:clamp(1rem,3vw,1.5rem);
-  width:clamp(42px,10vw,52px);
-  height:clamp(42px,10vw,52px);
-  border-radius:50%;
-  background:#e75480;
-  border:none;
-  cursor:pointer;
-  font-size:clamp(1.1rem,3vw,1.4rem);
-  box-shadow:0 3px 14px #e7548055;
-  display:flex;align-items:center;justify-content:center;
-  z-index:999;
-  transition:transform .15s,box-shadow .15s;
-}
-#musicBtn:hover{transform:scale(1.08);box-shadow:0 5px 18px #e7548077;}
-#musicBtn.playing{animation:musicPulse 1.5s ease-in-out infinite;}
-@keyframes musicPulse{0%,100%{box-shadow:0 3px 14px #e7548055;}50%{box-shadow:0 0 0 8px #e7548022,0 3px 14px #e7548055;}}
+
 
 /* SCREEN 1 */
 #s1 .big-q{
