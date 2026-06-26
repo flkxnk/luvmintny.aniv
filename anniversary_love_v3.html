@@ -1,0 +1,297 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Itim&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+#app{
+  font-family:'Mitr',sans-serif;
+  min-height:100vh;
+  background:#fff5f8;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(1rem,4vw,2.5rem);
+  position:relative;
+  overflow:hidden;
+}
+.screen{width:100%;max-width:min(500px,94vw);text-align:center;}
+
+/* SCREEN 1 */
+#s1 .big-q{
+  font-family:'Itim',cursive;
+  font-size:clamp(1.3rem,4.5vw,2rem);
+  color:#c0435e;
+  margin-bottom:clamp(1rem,3vw,1.8rem);
+  line-height:1.6;
+}
+/* กล่องปุ่ม: สูงพอให้ปุ่มวิ่ง ไม่ทับกัน */
+.btn-area{
+  position:relative;
+  width:100%;
+  height:130px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#yesBtn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
+}
+#noBtn{
+  position:absolute;
+  z-index:1;
+  transition:left .15s,top .15s;
+}
+/* วาง noBtn เริ่มต้นขวาของ yesBtn */
+#noBtn.init{
+  left:calc(50% + 90px);
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.btn{
+  padding:clamp(.5rem,1.5vw,.75rem) clamp(1rem,3vw,1.8rem);
+  border-radius:50px;
+  border:none;
+  cursor:pointer;
+  font-family:'Mitr',sans-serif;
+  font-size:clamp(.85rem,2.5vw,1rem);
+  font-weight:500;
+  white-space:nowrap;
+  transition:transform .12s,box-shadow .12s;
+}
+.btn:active{transform:scale(.95);}
+.btn-yes{background:#e75480;color:#fff;box-shadow:0 3px 12px #e7548044;}
+.btn-yes:hover{box-shadow:0 5px 16px #e7548066;}
+.btn-no{background:#ffd6e0;color:#c0435e;}
+
+.teaser{
+  font-family:'Itim',cursive;
+  font-size:clamp(.85rem,2.5vw,1rem);
+  color:#c0435e;
+  margin-top:.7rem;
+  min-height:1.4em;
+  animation:fadeIn .3s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+/* SCREEN 2 */
+#s2 .quiz-header{
+  font-family:'Itim',cursive;
+  font-size:clamp(1rem,3.5vw,1.25rem);
+  color:#c0435e;
+  margin-bottom:.6rem;
+}
+#s2 .question{
+  font-size:clamp(.9rem,2.8vw,1rem);
+  color:#3a1a25;
+  margin-bottom:clamp(.8rem,2vw,1.2rem);
+  line-height:1.7;
+}
+.choices{display:flex;flex-direction:column;gap:clamp(.4rem,1.2vw,.6rem);}
+.choice-btn{
+  padding:clamp(.5rem,1.5vw,.7rem) clamp(.8rem,2vw,1rem);
+  border-radius:12px;
+  border:1.5px solid #f4a0b0;
+  background:#fff;
+  font-family:'Mitr',sans-serif;
+  font-size:clamp(.82rem,2.5vw,.95rem);
+  cursor:pointer;
+  text-align:left;
+  color:#3a1a25;
+  transition:background .15s;
+}
+.choice-btn:hover{background:#ffe4ed;}
+.choice-btn.correct{background:#d4edda;border-color:#4caf7d;color:#1a5c35;}
+.choice-btn.wrong{background:#fde8e8;border-color:#e74c3c;color:#7b1a1a;}
+.feedback{
+  font-family:'Itim',cursive;
+  font-size:clamp(.85rem,2.5vw,1rem);
+  margin-top:.7rem;color:#c0435e;min-height:1.4em;
+}
+.progress{font-size:clamp(.72rem,2vw,.82rem);color:#b07080;margin-bottom:.5rem;}
+.next-btn{margin-top:.9rem;}
+
+/* SCREEN 3 */
+#s3 .big-heart{font-size:clamp(2.5rem,8vw,3.8rem);display:block;animation:pulse 1.2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
+#s3 .caption{
+  font-family:'Itim',cursive;
+  font-size:clamp(1rem,3.5vw,1.2rem);
+  color:#c0435e;font-weight:600;margin:.5rem 0 1rem;
+}
+#s3 .letter-box{
+  background:#fff;border-radius:18px;border:1.5px solid #f4a0b0;
+  padding:clamp(1rem,4vw,1.6rem);text-align:left;line-height:1.9;
+  color:#4a1a2c;font-size:clamp(.85rem,2.5vw,.95rem);margin-bottom:1rem;position:relative;
+}
+#s3 .letter-box::before{content:'💌';position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:clamp(1.4rem,4vw,1.8rem);}
+#s3 .sign{font-family:'Itim',cursive;font-size:clamp(1rem,3vw,1.2rem);color:#c0435e;text-align:right;}
+.hidden{display:none!important;}
+</style>
+
+<div id="app">
+  <!-- SCREEN 1 -->
+  <div id="s1" class="screen">
+    <p class="big-q" id="mainQ">วันนี้วันครบรอบของเรา<br>แฟนรู้สึกยังไงกับฉันบ้าง? 🌸</p>
+    <div class="btn-area" id="btnArea">
+      <button class="btn btn-yes" id="yesBtn" onclick="goQuiz()">รักมากที่สุดเลย ❤️</button>
+      <button class="btn btn-no init" id="noBtn" onclick="runAway()">...ไม่รู้สิ</button>
+    </div>
+    <p class="teaser" id="teaser"></p>
+  </div>
+
+  <!-- SCREEN 2 -->
+  <div id="s2" class="screen hidden">
+    <p class="quiz-header">🤔 ทดสอบว่าแฟนรู้จักฉันแค่ไหน!</p>
+    <p class="progress" id="qprog">ข้อ 1 / 3</p>
+    <p class="question" id="qtext"></p>
+    <div class="choices" id="choices"></div>
+    <p class="feedback" id="feedback"></p>
+    <button class="btn btn-yes next-btn hidden" id="nextBtn" onclick="nextQ()">ต่อไป ➜</button>
+  </div>
+
+  <!-- SCREEN 3 -->
+  <div id="s3" class="screen hidden">
+    <span class="big-heart">❤️</span>
+    <p class="caption">ขอบคุณที่อยู่ข้างๆ กันมาตลอดนะ</p>
+    <div class="letter-box">
+      <p>ถึงคนที่ฉันรักที่สุดในโลก,</p><br>
+      <p>วันนี้เป็นวันครบรอบของเรา ฉันอยากให้รู้ว่า ทุกวันที่ได้อยู่ข้างๆ เธอ มันทำให้ฉันมีความสุขมากขนาดไหน</p><br>
+      <p>เธอคือคนที่ทำให้ฉันยิ้มได้แม้วันที่แย่ที่สุด ขอบคุณที่รัก ขอบคุณที่เข้าใจ และขอบคุณที่เลือกฉัน</p><br>
+      <p>ฉันรักเธอมากกว่าที่คำพูดจะบอกได้ ❤️</p><br>
+      <p class="sign">— ด้วยรักและคิดถึง</p>
+    </div>
+    <button class="btn btn-yes" onclick="restart()">เริ่มใหม่อีกรอบ 🔁</button>
+  </div>
+</div>
+
+<script>
+const teasers = [
+  'ไม่ได้รักกันแล้วเหรอ? 🥺',
+  'แน่ใจนะ? ลองคิดดีๆ อีกที... 💔',
+  'หรือว่าแอบรักแต่ยังไม่ยอมรับ? 👀'
+];
+
+let runCount = 0;
+
+function runAway() {
+  const btn = document.getElementById('noBtn');
+  const area = document.getElementById('btnArea');
+  const yesBtn = document.getElementById('yesBtn');
+  const teaser = document.getElementById('teaser');
+
+  // แสดงข้อความแซว
+  teaser.textContent = teasers[runCount] || '';
+
+  runCount++;
+
+  if (runCount > 3) return; // หลัง 3 ครั้ง ปุ่มหายแล้ว ไม่ทำอะไร
+
+  // คำนวณ safe zone: พื้นที่ที่ noBtn วิ่งได้โดยไม่ทับ yesBtn
+  const aw = area.offsetWidth;
+  const ah = area.offsetHeight;
+  const bw = btn.offsetWidth  || 100;
+  const bh = btn.offsetHeight || 40;
+  const yw = yesBtn.offsetWidth  || 140;
+  const yh = yesBtn.offsetHeight || 40;
+
+  // yesBtn อยู่กึ่งกลาง: cx=(aw/2 - yw/2) ถึง (aw/2 + yw/2), cy=(ah/2 - yh/2) ถึง (ah/2 + yh/2)
+  const margin = 12; // ระยะห่าง
+  const yLeft  = aw / 2 - yw / 2 - margin;
+  const yRight = aw / 2 + yw / 2 + margin;
+  const yTop   = ah / 2 - yh / 2 - margin;
+  const yBot   = ah / 2 + yh / 2 + margin;
+
+  // สุ่มตำแหน่งใหม่ที่ไม่ทับ yesBtn
+  let nx, ny, tries = 0;
+  do {
+    nx = Math.random() * (aw - bw);
+    ny = Math.random() * (ah - bh);
+    tries++;
+    const noRight  = nx + bw;
+    const noBottom = ny + bh;
+    const overlap =
+      nx < yRight && noRight > yLeft &&
+      ny < yBot   && noBottom > yTop;
+    if (!overlap) break;
+  } while (tries < 30);
+
+  btn.classList.remove('init');
+  btn.style.left = nx + 'px';
+  btn.style.top  = ny + 'px';
+  btn.style.transform = 'none';
+
+  if (runCount >= 3) {
+    setTimeout(() => {
+      btn.style.opacity = '0';
+      btn.style.pointerEvents = 'none';
+      teaser.textContent = 'ปุ่มนี้หายไปแล้วนะ กดรักเลยดีกว่า 💕';
+    }, 400);
+  }
+}
+
+function show(id) {
+  ['s1','s2','s3'].forEach(s => document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function goQuiz() { curQ = 0; show('s2'); loadQ(); }
+
+const questions = [
+  {q:'เราเคยทำอะไรด้วยกันครั้งแรก?',choices:['ไปดูหนังด้วยกัน','กินข้าวที่ร้านโปรด','ชวนกันไปเดินตลาดนัด','ไปเที่ยวทะเล'],ans:1,ok:'ใช่เลย! จำได้แน่นอน 🥰',fail:'อ้าว ลืมแล้วเหรอ? นั่นร้านโปรดของเราเลยนะ!'},
+  {q:'ฉันชอบให้แฟนทำอะไรให้มากที่สุด?',choices:['กอดแน่นๆ','บอกว่ารัก','ซื้อของฝาก','ฟังเวลาระบาย'],ans:3,ok:'เก่งมาก! รู้ใจกันเลย 💕',fail:'ผิดแล้ว~ ฉันชอบให้แฟนฟังมากที่สุดเลย!'},
+  {q:'ถ้าฉันเป็นอาหาร ฉันจะเป็นอะไร?',choices:['ช็อกโกแลต — หวานและน่าหลงไหล','ส้มตำ — เผ็ดแต่ติดใจ','ข้าวต้ม — อบอุ่นสบายใจ','ไอศกรีม — เย็นและสดชื่น'],ans:2,ok:'ตอบถูกเลย! อบอุ่นใจยังไงก็คือฉัน 🍚',fail:'อ้าว~ ฉันน่าจะเป็นข้าวต้มสิ อบอุ่นกว่าเยอะเลย!'}
+];
+let curQ = 0, answered = false;
+
+function loadQ() {
+  answered = false;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('nextBtn').classList.add('hidden');
+  const q = questions[curQ];
+  document.getElementById('qprog').textContent = `ข้อ ${curQ+1} / ${questions.length}`;
+  document.getElementById('qtext').textContent = q.q;
+  const c = document.getElementById('choices');
+  c.innerHTML = '';
+  q.choices.forEach((ch, i) => {
+    const b = document.createElement('button');
+    b.className = 'choice-btn';
+    b.textContent = ch;
+    b.onclick = () => answer(i);
+    c.appendChild(b);
+  });
+}
+
+function answer(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[curQ];
+  document.querySelectorAll('.choice-btn').forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === q.ans) b.classList.add('correct');
+    else if (idx === i && i !== q.ans) b.classList.add('wrong');
+  });
+  document.getElementById('feedback').textContent = i === q.ans ? q.ok : q.fail;
+  const nb = document.getElementById('nextBtn');
+  nb.classList.remove('hidden');
+  nb.textContent = curQ === questions.length - 1 ? 'ดูจดหมายรัก 💌' : 'ต่อไป ➜';
+}
+
+function nextQ() {
+  curQ++;
+  if (curQ >= questions.length) show('s3');
+  else loadQ();
+}
+
+function restart() {
+  curQ = 0; answered = false; runCount = 0;
+  const btn = document.getElementById('noBtn');
+  btn.style.cssText = '';
+  btn.classList.add('init');
+  document.getElementById('teaser').textContent = '';
+  show('s1');
+}
+</script>
